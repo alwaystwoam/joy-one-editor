@@ -1595,33 +1595,6 @@ const ScheduleModal = ({ item, onSave, onClose, onDelete, people = [], onUpdateP
               
               {/* Tags Section */}
               <div style={{ marginBottom: '16px' }}>
-                <div style={{ 
-                  fontSize: '12px', 
-                  fontWeight: '500', 
-                  color: '#475569', 
-                  marginBottom: '10px',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}>
-                  <span>Guests with these tags</span>
-                  <button
-                    type="button"
-                    onClick={() => setShowTagPicker(true)}
-                    style={{
-                      background: 'none',
-                      border: 'none',
-                      color: '#3b82f6',
-                      fontSize: '12px',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '4px',
-                    }}
-                  >
-                    Browse all
-                  </button>
-                </div>
                 
                 {/* Show selected tags that aren't in recent */}
                 {(form.privacy.allowedTags || []).filter(id => !RECENT_TAG_IDS.includes(id)).length > 0 && (
@@ -1701,6 +1674,27 @@ const ScheduleModal = ({ item, onSave, onClose, onDelete, people = [], onUpdateP
                       </button>
                     );
                   })}
+                  <button
+                    type="button"
+                    onClick={() => setShowTagPicker(true)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      padding: '8px 14px',
+                      borderRadius: '20px',
+                      border: '1px dashed #d1d5db',
+                      background: 'transparent',
+                      color: '#6b7280',
+                      fontSize: '12px',
+                      fontWeight: '400',
+                      cursor: 'pointer',
+                      transition: 'all 0.15s ease',
+                    }}
+                  >
+                    <Plus size={14} />
+                    <span>More</span>
+                  </button>
                 </div>
               </div>
               
