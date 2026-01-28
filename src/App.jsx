@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { GripVertical, X, Check, Plus, ArrowLeftRight, CheckSquare, Trash2, Clock, MapPin, User, Star, HelpCircle, Plane, Compass } from 'lucide-react';
+import { GripVertical, X, Check, Plus, ArrowLeftRight, CheckSquare, Trash2, Clock, MapPin, User, Star, HelpCircle, Plane, Compass, Train, Car, CarTaxiFront, Key } from 'lucide-react';
 
 // ============================================================================
 // SAMPLE DATA
@@ -302,7 +302,7 @@ const styles = {
   sectionHeader: {
     padding: '24px 24px 16px',
     background: '#fafafa',
-    fontSize: '13px',
+    fontSize: '12px',
     fontWeight: '400',
     color: '#9ca3af',
     letterSpacing: '0.01em',
@@ -354,10 +354,10 @@ const styles = {
     flexShrink: 0,
   },
   checkbox: {
-    width: '22px',
-    height: '22px',
-    borderRadius: '6px',
-    border: '2px solid #d1d5db',
+    width: '20px',
+    height: '20px',
+    borderRadius: '5px',
+    border: '1.5px solid #d1d5db',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -400,7 +400,7 @@ const styles = {
     fontSize: '16px',
     fontWeight: '400',
     color: '#1D1D1F',
-    marginBottom: '5px',
+    marginBottom: '4px',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
@@ -418,7 +418,7 @@ const styles = {
     letterSpacing: '-0.01em',
   },
   rowTertiary: {
-    fontSize: '13px',
+    fontSize: '12px',
     fontWeight: '400',
     color: '#9ca3af',
     marginTop: '8px',
@@ -607,7 +607,7 @@ const styles = {
     gap: '16px',
   },
   label: {
-    fontSize: '13px',
+    fontSize: '12px',
     fontWeight: '400',
     color: '#6b7280',
     letterSpacing: '0',
@@ -1013,7 +1013,7 @@ const ScheduleRow = ({ item, mode, isSelected, onSelect, onDelete, onRequestDele
           </div>
         ) : (
           <div style={{ ...styles.checkbox, ...(isSelected ? styles.checkboxChecked : {}) }}>
-            {isSelected && <Check size={14} color="#fff" />}
+            {isSelected && <Check size={13} color="#fff" />}
           </div>
         )}
       </div>
@@ -1050,7 +1050,7 @@ const ScheduleRow = ({ item, mode, isSelected, onSelect, onDelete, onRequestDele
                 />
               ))}
             </div>
-            <span style={{ fontSize: '13px', color: '#6b7280' }}>
+            <span style={{ fontSize: '12px', color: '#6b7280' }}>
               {linkedPeople.length === 1 
                 ? `${linkedPeople[0].firstName} ${linkedPeople[0].lastName}`
                 : linkedPeople.length === 2
@@ -1111,7 +1111,7 @@ const PersonRow = ({ item, mode, isSelected, onSelect, onDelete, onRequestDelete
           </div>
         ) : (
           <div style={{ ...styles.checkbox, ...(isSelected ? styles.checkboxChecked : {}) }}>
-            {isSelected && <Check size={14} color="#fff" />}
+            {isSelected && <Check size={13} color="#fff" />}
           </div>
         )}
       </div>
@@ -1183,7 +1183,7 @@ const HotelRow = ({ item, mode, isSelected, onSelect, onDelete, onRequestDelete,
           </div>
         ) : (
           <div style={{ ...styles.checkbox, ...(isSelected ? styles.checkboxChecked : {}) }}>
-            {isSelected && <Check size={14} color="#fff" />}
+            {isSelected && <Check size={13} color="#fff" />}
           </div>
         )}
       </div>
@@ -1203,7 +1203,11 @@ const HotelRow = ({ item, mode, isSelected, onSelect, onDelete, onRequestDelete,
           <span style={{ color: '#9ca3af', marginLeft: '8px' }}>· {distanceText}</span>
         </div>
         <div style={{ 
-          ...styles.rowTertiary, 
+          fontSize: '14px',
+          fontWeight: '400',
+          color: '#9ca3af',
+          marginTop: '6px',
+          lineHeight: '1.5',
           whiteSpace: 'normal', 
           display: '-webkit-box', 
           WebkitLineClamp: 2, 
@@ -1262,7 +1266,7 @@ const FaqRow = ({ item, mode, isSelected, onSelect, onDelete, onRequestDelete, o
           </div>
         ) : (
           <div style={{ ...styles.checkbox, ...(isSelected ? styles.checkboxChecked : {}) }}>
-            {isSelected && <Check size={14} color="#fff" />}
+            {isSelected && <Check size={13} color="#fff" />}
           </div>
         )}
       </div>
@@ -1294,7 +1298,17 @@ const FaqRow = ({ item, mode, isSelected, onSelect, onDelete, onRequestDelete, o
 const TravelRow = ({ item, mode, isSelected, onSelect, onDelete, onRequestDelete, onClick, listeners }) => {
   const [isHovered, setIsHovered] = useState(false);
   const showLeadingAction = mode === 'reorder' || mode === 'multiselect';
-  const typeLabels = { airport: 'Airport', rideshare: 'Rideshare', transit: 'Transit', taxi: 'Taxi', rental: 'Car Rental' };
+  
+  // Travel type configuration with emojis and colors
+  const travelTypes = {
+    airport: { label: 'Airport', emoji: '✈️', color: '#0ea5e9', bg: '#f0f9ff' },
+    transit: { label: 'Transit', emoji: '🚇', color: '#8b5cf6', bg: '#f5f3ff' },
+    rideshare: { label: 'Rideshare', emoji: '🚗', color: '#10b981', bg: '#ecfdf5' },
+    taxi: { label: 'Taxi', emoji: '🚕', color: '#f59e0b', bg: '#fffbeb' },
+    rental: { label: 'Rental', emoji: '🔑', color: '#ec4899', bg: '#fdf2f8' },
+  };
+  
+  const typeConfig = travelTypes[item.itemType] || travelTypes.airport;
   
   return (
     <div
@@ -1323,13 +1337,13 @@ const TravelRow = ({ item, mode, isSelected, onSelect, onDelete, onRequestDelete
           </div>
         ) : (
           <div style={{ ...styles.checkbox, ...(isSelected ? styles.checkboxChecked : {}) }}>
-            {isSelected && <Check size={14} color="#fff" />}
+            {isSelected && <Check size={13} color="#fff" />}
           </div>
         )}
       </div>
-      <div style={{ ...styles.timeBlock, background: '#f0fdf4', minWidth: '80px' }}>
-        <Plane size={16} style={{ color: '#16a34a', marginBottom: '4px' }} />
-        <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: '400' }}>{typeLabels[item.itemType] || item.itemType}</span>
+      <div style={{ ...styles.timeBlock, background: typeConfig.bg, minWidth: '80px' }}>
+        <span style={{ fontSize: '20px', marginBottom: '2px' }}>{typeConfig.emoji}</span>
+        <span style={{ fontSize: '11px', color: typeConfig.color, fontWeight: '500' }}>{typeConfig.label}</span>
       </div>
       <div style={styles.rowContent}>
         <div style={styles.rowPrimary}>{item.title}</div>
@@ -1385,7 +1399,7 @@ const AttractionRow = ({ item, mode, isSelected, onSelect, onDelete, onRequestDe
           </div>
         ) : (
           <div style={{ ...styles.checkbox, ...(isSelected ? styles.checkboxChecked : {}) }}>
-            {isSelected && <Check size={14} color="#fff" />}
+            {isSelected && <Check size={13} color="#fff" />}
           </div>
         )}
       </div>
@@ -1419,6 +1433,7 @@ const AttractionRow = ({ item, mode, isSelected, onSelect, onDelete, onRequestDe
 // ============================================================================
 
 // Sample guest tags for the prototype
+// All available guest tags in the system
 const GUEST_TAGS = [
   { id: 'vip', label: 'VIP', emoji: '⭐' },
   { id: 'speaker', label: 'Speaker', emoji: '🎤' },
@@ -1428,17 +1443,41 @@ const GUEST_TAGS = [
   { id: 'volunteer', label: 'Volunteer', emoji: '🙋' },
   { id: 'partner', label: 'Partner', emoji: '🤝' },
   { id: 'executive', label: 'Executive', emoji: '👑' },
+  { id: 'attendee', label: 'Attendee', emoji: '🎫' },
+  { id: 'exhibitor', label: 'Exhibitor', emoji: '🏪' },
+  { id: 'media', label: 'Media', emoji: '📷' },
+  { id: 'investor', label: 'Investor', emoji: '💰' },
+  { id: 'board', label: 'Board Member', emoji: '📋' },
+  { id: 'alumni', label: 'Alumni', emoji: '🎓' },
+  { id: 'vendor', label: 'Vendor', emoji: '🛒' },
+  { id: 'guest', label: 'Guest', emoji: '👤' },
+  { id: 'family', label: 'Family', emoji: '👨‍👩‍👧' },
+  { id: 'student', label: 'Student', emoji: '📚' },
 ];
 
+// Simulated "recently used" tags (in real app, this would come from usage data)
+const RECENT_TAG_IDS = ['vip', 'speaker', 'sponsor', 'staff', 'executive'];
+
 const ScheduleModal = ({ item, onSave, onClose, onDelete, people = [], onUpdatePeople }) => {
-  const [form, setForm] = useState(item || {
+  const defaultForm = {
     name: '', description: '', eventMode: 'in-person',
     dateTime: { start: '', end: '', timeZone: 'America/New_York' },
     privacy: { visibility: 'public', allowedTags: [], allowedPeople: [] },
     inPerson: { venue: '', address: '', dressCode: '' }
-  });
+  };
+  
+  // Merge item with defaults to ensure all nested properties exist
+  const [form, setForm] = useState(item ? {
+    ...defaultForm,
+    ...item,
+    dateTime: { ...defaultForm.dateTime, ...item.dateTime },
+    privacy: { ...defaultForm.privacy, ...item.privacy },
+    inPerson: { ...defaultForm.inPerson, ...item.inPerson },
+  } : defaultForm);
   const [showSpeakerPicker, setShowSpeakerPicker] = useState(false);
   const [showGuestPicker, setShowGuestPicker] = useState(false);
+  const [showTagPicker, setShowTagPicker] = useState(false);
+  const [tagSearch, setTagSearch] = useState('');
   
   const handleChange = (field, value) => {
     if (field.includes('.')) {
@@ -1542,14 +1581,8 @@ const ScheduleModal = ({ item, onSave, onClose, onDelete, people = [], onUpdateP
             />
           </div>
           
-          {/* Private Event Configuration - Expandable */}
-          <div style={{
-            maxHeight: form.privacy.visibility === 'private' ? '500px' : '0',
-            opacity: form.privacy.visibility === 'private' ? 1 : 0,
-            overflow: 'hidden',
-            transition: 'all 0.3s ease',
-            marginTop: form.privacy.visibility === 'private' ? '0' : '-20px',
-          }}>
+          {/* Private Event Configuration */}
+          {form.privacy.visibility === 'private' && (
             <div style={{
               background: '#f8fafc',
               borderRadius: '12px',
@@ -1562,11 +1595,85 @@ const ScheduleModal = ({ item, onSave, onClose, onDelete, people = [], onUpdateP
               
               {/* Tags Section */}
               <div style={{ marginBottom: '16px' }}>
-                <div style={{ fontSize: '13px', fontWeight: '500', color: '#475569', marginBottom: '10px' }}>
-                  Guests with these tags
+                <div style={{ 
+                  fontSize: '12px', 
+                  fontWeight: '500', 
+                  color: '#475569', 
+                  marginBottom: '10px',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                  <span>Guests with these tags</span>
+                  <button
+                    type="button"
+                    onClick={() => setShowTagPicker(true)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: '#3b82f6',
+                      fontSize: '12px',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                    }}
+                  >
+                    Browse all
+                  </button>
                 </div>
+                
+                {/* Show selected tags that aren't in recent */}
+                {(form.privacy.allowedTags || []).filter(id => !RECENT_TAG_IDS.includes(id)).length > 0 && (
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '10px' }}>
+                    {(form.privacy.allowedTags || [])
+                      .filter(id => !RECENT_TAG_IDS.includes(id))
+                      .map(tagId => {
+                        const tag = GUEST_TAGS.find(t => t.id === tagId);
+                        if (!tag) return null;
+                        return (
+                          <div
+                            key={tag.id}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '6px',
+                              padding: '6px 10px',
+                              borderRadius: '16px',
+                              background: '#eff6ff',
+                              border: '1px solid #bfdbfe',
+                              color: '#1d4ed8',
+                              fontSize: '12px',
+                            }}
+                          >
+                            <span>{tag.emoji}</span>
+                            <span>{tag.label}</span>
+                            <button
+                              type="button"
+                              onClick={() => toggleTag(tag.id)}
+                              style={{
+                                background: 'none',
+                                border: 'none',
+                                padding: '0',
+                                cursor: 'pointer',
+                                color: '#3b82f6',
+                                display: 'flex',
+                                alignItems: 'center',
+                              }}
+                            >
+                              <X size={14} />
+                            </button>
+                          </div>
+                        );
+                      })}
+                  </div>
+                )}
+                
+                {/* Recent/Quick tags */}
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                  {GUEST_TAGS.map(tag => {
+                  {RECENT_TAG_IDS.map(tagId => {
+                    const tag = GUEST_TAGS.find(t => t.id === tagId);
+                    if (!tag) return null;
                     const isSelected = (form.privacy.allowedTags || []).includes(tag.id);
                     return (
                       <button
@@ -1582,7 +1689,7 @@ const ScheduleModal = ({ item, onSave, onClose, onDelete, people = [], onUpdateP
                           border: isSelected ? '1.5px solid #3b82f6' : '1px solid #e2e8f0',
                           background: isSelected ? '#eff6ff' : '#fff',
                           color: isSelected ? '#1d4ed8' : '#475569',
-                          fontSize: '13px',
+                          fontSize: '12px',
                           fontWeight: '400',
                           cursor: 'pointer',
                           transition: 'all 0.15s ease',
@@ -1590,7 +1697,7 @@ const ScheduleModal = ({ item, onSave, onClose, onDelete, people = [], onUpdateP
                       >
                         <span>{tag.emoji}</span>
                         <span>{tag.label}</span>
-                        {isSelected && <Check size={14} />}
+                        {isSelected && <Check size={13} />}
                       </button>
                     );
                   })}
@@ -1600,7 +1707,7 @@ const ScheduleModal = ({ item, onSave, onClose, onDelete, people = [], onUpdateP
               {/* Specific People Section */}
               <div>
                 <div style={{ 
-                  fontSize: '13px', 
+                  fontSize: '12px', 
                   fontWeight: '500', 
                   color: '#475569', 
                   marginBottom: '10px',
@@ -1616,7 +1723,7 @@ const ScheduleModal = ({ item, onSave, onClose, onDelete, people = [], onUpdateP
                       background: 'none',
                       border: 'none',
                       color: '#3b82f6',
-                      fontSize: '13px',
+                      fontSize: '12px',
                       cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
@@ -1635,7 +1742,7 @@ const ScheduleModal = ({ item, onSave, onClose, onDelete, people = [], onUpdateP
                     borderRadius: '8px', 
                     border: '1px solid #e2e8f0',
                     color: '#94a3b8',
-                    fontSize: '13px',
+                    fontSize: '12px',
                     textAlign: 'center',
                   }}>
                     No specific people added
@@ -1660,7 +1767,7 @@ const ScheduleModal = ({ item, onSave, onClose, onDelete, people = [], onUpdateP
                           padding: '6px 10px 6px 6px',
                           background: '#f1f5f9',
                           borderRadius: '20px',
-                          fontSize: '13px',
+                          fontSize: '12px',
                           color: '#334155',
                         }}
                       >
@@ -1715,7 +1822,7 @@ const ScheduleModal = ({ item, onSave, onClose, onDelete, people = [], onUpdateP
                   background: '#fff',
                   borderRadius: '8px',
                   border: '1px solid #e2e8f0',
-                  fontSize: '13px',
+                  fontSize: '12px',
                   color: '#64748b',
                   display: 'flex',
                   alignItems: 'center',
@@ -1738,7 +1845,7 @@ const ScheduleModal = ({ item, onSave, onClose, onDelete, people = [], onUpdateP
                 </div>
               )}
             </div>
-          </div>
+          )}
           
           <div style={styles.formGroup}>
             <label style={styles.label}>Venue</label>
@@ -1891,15 +1998,15 @@ const ScheduleModal = ({ item, onSave, onClose, onDelete, people = [], onUpdateP
                       <div style={{
                         width: '20px',
                         height: '20px',
-                        borderRadius: '4px',
-                        border: isSelected ? 'none' : '2px solid #d1d5db',
+                        borderRadius: '5px',
+                        border: isSelected ? 'none' : '1.5px solid #d1d5db',
                         background: isSelected ? '#3b82f6' : '#fff',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         flexShrink: 0,
                       }}>
-                        {isSelected && <Check size={14} color="#fff" />}
+                        {isSelected && <Check size={13} color="#fff" />}
                       </div>
                       {person.photoUrl ? (
                         <img 
@@ -1984,15 +2091,15 @@ const ScheduleModal = ({ item, onSave, onClose, onDelete, people = [], onUpdateP
                         <div style={{ fontSize: '15px', fontWeight: '400', color: '#1D1D1F' }}>
                           {person.firstName} {person.lastName}
                         </div>
-                        <div style={{ fontSize: '13px', color: '#71717a' }}>
+                        <div style={{ fontSize: '12px', color: '#71717a' }}>
                           {person.title}{person.company && ` · ${person.company}`}
                         </div>
                       </div>
                       <div style={{
-                        width: '22px',
-                        height: '22px',
-                        borderRadius: '6px',
-                        border: isSelected ? 'none' : '2px solid #d1d5db',
+                        width: '20px',
+                        height: '20px',
+                        borderRadius: '5px',
+                        border: isSelected ? 'none' : '1.5px solid #d1d5db',
                         background: isSelected ? '#3b82f6' : '#fff',
                         display: 'flex',
                         alignItems: 'center',
@@ -2000,7 +2107,7 @@ const ScheduleModal = ({ item, onSave, onClose, onDelete, people = [], onUpdateP
                         flexShrink: 0,
                         transition: 'all 0.15s ease',
                       }}>
-                        {isSelected && <Check size={14} color="#fff" />}
+                        {isSelected && <Check size={13} color="#fff" />}
                       </div>
                     </div>
                   );
@@ -2009,6 +2116,82 @@ const ScheduleModal = ({ item, onSave, onClose, onDelete, people = [], onUpdateP
             </div>
             <div style={{ ...styles.modalFooter, justifyContent: 'flex-end' }}>
               <button className="btn-primary" style={styles.primaryButton} onClick={() => setShowGuestPicker(false)}>Done</button>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Tag Picker Modal */}
+      {showTagPicker && (
+        <div style={{ ...styles.modalOverlay, background: 'rgba(0,0,0,0.2)' }} onClick={() => { setShowTagPicker(false); setTagSearch(''); }}>
+          <div style={{ ...styles.modal, maxWidth: '480px', maxHeight: '70vh' }} onClick={(e) => e.stopPropagation()}>
+            <button className="btn-close" style={styles.modalClose} onClick={() => { setShowTagPicker(false); setTagSearch(''); }}><X size={18} /></button>
+            <div style={styles.modalHeader}>
+              <h2 style={styles.modalTitle}>Browse Tags</h2>
+            </div>
+            <div style={{ padding: '0 24px 16px' }}>
+              <input
+                type="text"
+                placeholder="Search tags..."
+                value={tagSearch}
+                onChange={(e) => setTagSearch(e.target.value)}
+                style={{
+                  ...styles.input,
+                  width: '100%',
+                }}
+                autoFocus
+              />
+            </div>
+            <div style={{ padding: '0 24px', maxHeight: '40vh', overflow: 'auto' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', paddingBottom: '16px' }}>
+                {GUEST_TAGS
+                  .filter(tag => 
+                    tag.label.toLowerCase().includes(tagSearch.toLowerCase()) ||
+                    tag.id.toLowerCase().includes(tagSearch.toLowerCase())
+                  )
+                  .map(tag => {
+                    const isSelected = (form.privacy.allowedTags || []).includes(tag.id);
+                    return (
+                      <button
+                        key={tag.id}
+                        type="button"
+                        onClick={() => toggleTag(tag.id)}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          padding: '10px 16px',
+                          borderRadius: '20px',
+                          border: isSelected ? '1.5px solid #3b82f6' : '1px solid #e2e8f0',
+                          background: isSelected ? '#eff6ff' : '#fff',
+                          color: isSelected ? '#1d4ed8' : '#475569',
+                          fontSize: '14px',
+                          fontWeight: '400',
+                          cursor: 'pointer',
+                          transition: 'all 0.15s ease',
+                        }}
+                      >
+                        <span style={{ fontSize: '16px' }}>{tag.emoji}</span>
+                        <span>{tag.label}</span>
+                        {isSelected && <Check size={14} />}
+                      </button>
+                    );
+                  })}
+                {GUEST_TAGS.filter(tag => 
+                  tag.label.toLowerCase().includes(tagSearch.toLowerCase()) ||
+                  tag.id.toLowerCase().includes(tagSearch.toLowerCase())
+                ).length === 0 && (
+                  <div style={{ padding: '20px', color: '#94a3b8', fontSize: '14px', textAlign: 'center', width: '100%' }}>
+                    No tags match "{tagSearch}"
+                  </div>
+                )}
+              </div>
+            </div>
+            <div style={{ ...styles.modalFooter, justifyContent: 'space-between' }}>
+              <div style={{ fontSize: '13px', color: '#64748b' }}>
+                {(form.privacy.allowedTags || []).length} tag{(form.privacy.allowedTags || []).length !== 1 ? 's' : ''} selected
+              </div>
+              <button className="btn-primary" style={styles.primaryButton} onClick={() => { setShowTagPicker(false); setTagSearch(''); }}>Done</button>
             </div>
           </div>
         </div>
@@ -2218,7 +2401,7 @@ const PersonModal = ({ item, onSave, onClose, onDelete, schedule = [] }) => {
                         ...(isSelected ? styles.checkboxChecked : {}),
                         flexShrink: 0,
                       }}>
-                        {isSelected && <Check size={14} color="#fff" />}
+                        {isSelected && <Check size={13} color="#fff" />}
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ fontSize: '14px', fontWeight: '400', color: '#1D1D1F' }}>
